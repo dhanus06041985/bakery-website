@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Farine — Artisan Bakery</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FAF6EF;
+    --warm-white: #FDF9F4;
+    --brown: #5C3A1E;
+    --dark-brown: #3B2210;
+    --caramel: #C4874A;
+    --caramel-light: #E8C49A;
+    --caramel-pale: #F5E8D6;
+    --text-dark: #2C1A0E;
+    --text-mid: #7A5C42;
+    --text-light: #A88060;
+    --border: rgba(92,58,30,0.15);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    line-height: 1.7;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250,246,239,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 70px;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--brown);
+    letter-spacing: 1px;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--caramel); font-style: italic; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text-mid);
+    font-size: 0.88rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--caramel); }
+  .nav-cta {
+    background: var(--brown);
+    color: var(--cream) !important;
+    padding: 10px 22px;
+    border-radius: 30px;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--caramel) !important; color: #fff !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(160deg, #F5E8D6 0%, #FAF6EF 50%, #F0E0C4 100%);
+    display: flex; align-items: center;
+    padding: 100px 5% 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -80px; right: -80px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(196,135,74,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: -60px; left: -60px;
+    width: 350px; height: 350px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(92,58,30,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-content { max-width: 600px; animation: fadeUp 0.9s ease both; }
+  .hero-tag {
+    display: inline-block;
+    background: var(--caramel-pale);
+    color: var(--caramel);
+    border: 1px solid var(--caramel-light);
+    font-size: 0.75rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
+    line-height: 1.15;
+    color: var(--dark-brown);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em { color: var(--caramel); font-style: italic; }
+  .hero p {
+    font-size: 1.1rem;
+    color: var(--text-mid);
+    margin-bottom: 2.5rem;
+    max-width: 480px;
+    font-weight: 300;
+  }
+  .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--brown);
+    color: var(--cream);
+    padding: 15px 32px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    transition: background 0.2s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--dark-brown); transform: translateY(-2px); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--brown);
+    padding: 15px 32px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    border: 2px solid var(--brown);
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  .btn-secondary:hover { background: var(--brown); color: var(--cream); transform: translateY(-2px); }
+  .hero-visual {
+    position: absolute; right: 5%; top: 50%;
+    transform: translateY(-50%);
+    width: 380px; height: 380px;
+    animation: fadeUp 1s 0.2s ease both;
+  }
+
+  /* MARQUEE */
+  .marquee-wrap {
+    background: var(--brown);
+    color: var(--caramel-light);
+    padding: 14px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .marquee-track {
+    display: inline-block;
+    animation: marquee 18s linear infinite;
+    font-size: 0.82rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .marquee-track span { margin: 0 2rem; opacity: 0.7; }
+
+  /* SECTION SHARED */
+  section { padding: 80px 5%; }
+  .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--caramel);
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    color: var(--dark-brown);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .section-sub {
+    color: var(--text-mid);
+    font-size: 1rem;
+    max-width: 500px;
+    font-weight: 300;
+  }
+
+  /* ABOUT */
+  .about {
+    background: var(--warm-white);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+  }
+  .about-visual { position: relative; }
+  .about-img-box {
+    background: var(--caramel-pale);
+    border-radius: 20px;
+    height: 420px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .about-img-box svg { width: 100%; height: 100%; }
+  .about-badge {
+    position: absolute; bottom: -20px; right: -20px;
+    background: var(--brown);
+    color: var(--cream);
+    border-radius: 50%;
+    width: 110px; height: 110px;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    box-shadow: 0 8px 24px rgba(92,58,30,0.3);
+  }
+  .about-badge strong { font-size: 1.8rem; line-height: 1; }
+  .about-badge span { font-size: 0.65rem; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.8; }
+  .about-features { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 2rem; }
+  .about-feature {
+    display: flex; align-items: flex-start; gap: 14px;
+    background: var(--caramel-pale);
+    padding: 16px 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .about-feature-icon {
+    width: 40px; height: 40px; flex-shrink: 0;
+    background: var(--brown);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+  .about-feature h4 { font-size: 0.95rem; font-weight: 700; color: var(--dark-brown); margin-bottom: 2px; }
+  .about-feature p { font-size: 0.85rem; color: var(--text-mid); margin: 0; }
+
+  /* MENU */
+  .menu { background: var(--cream); }
+  .menu-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem; }
+  .menu-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1.5rem; }
+  .tab-btn {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    color: var(--text-mid);
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Lato', sans-serif;
+  }
+  .tab-btn.active, .tab-btn:hover { background: var(--brown); border-color: var(--brown); color: var(--cream); }
+  .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+  .menu-card {
+    background: var(--warm-white);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .menu-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(92,58,30,0.12); }
+  .menu-card-img {
+    height: 180px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem;
+    background: var(--caramel-pale);
+  }
+  .menu-card-body { padding: 1.2rem; }
+  .menu-card-body h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--dark-brown);
+    margin-bottom: 0.4rem;
+  }
+  .menu-card-body p { font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem; }
+  .menu-card-footer { display: flex; justify-content: space-between; align-items: center; }
+  .price { font-size: 1.1rem; font-weight: 700; color: var(--caramel); }
+  .add-btn {
+    background: var(--brown);
+    color: var(--cream);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Lato', sans-serif;
+    transition: background 0.2s;
+  }
+  .add-btn:hover { background: var(--caramel); }
+
+  /* SPECIALS */
+  .specials {
+    background: var(--brown);
+    color: var(--cream);
+    text-align: center;
+  }
+  .specials .section-label { color: var(--caramel-light); }
+  .specials .section-title { color: var(--cream); }
+  .specials .section-sub { color: rgba(255,255,255,0.65); margin: 0 auto 3rem; }
+  .specials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem; }
+  .special-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    transition: background 0.2s;
+  }
+  .special-card:hover { background: rgba(255,255,255,0.14); }
+  .special-card .icon { font-size: 2.5rem; margin-bottom: 1rem; }
+  .special-card h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; margin-bottom: 0.5rem; }
+  .special-card p { font-size: 0.85rem; opacity: 0.7; margin-bottom: 1rem; }
+  .special-card .special-price { font-size: 1.3rem; font-weight: 700; color: var(--caramel-light); }
+
+  /* TESTIMONIALS */
+  .testimonials { background: var(--warm-white); }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2.5rem; }
+  .testimonial-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.8rem;
+    position: relative;
+  }
+  .testimonial-card::before {
+    content: '"';
+    position: absolute; top: 12px; left: 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    color: var(--caramel-light);
+    line-height: 1;
+  }
+  .testimonial-stars { color: var(--caramel); font-size: 1rem; margin-bottom: 0.8rem; margin-top: 1.2rem; }
+  .testimonial-text { font-size: 0.9rem; color: var(--text-mid); font-style: italic; margin-bottom: 1.2rem; }
+  .testimonial-author { display: flex; align-items: center; gap: 10px; }
+  .author-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--caramel-pale);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.9rem; color: var(--caramel);
+    border: 2px solid var(--caramel-light);
+  }
+  .author-name { font-weight: 700; font-size: 0.9rem; color: var(--dark-brown); }
+  .author-role { font-size: 0.75rem; color: var(--text-light); }
+
+  /* ORDER FORM */
+  .order {
+    background: var(--caramel-pale);
+    border-top: 1px solid var(--border);
+  }
+  .order-wrap {
+    max-width: 680px; margin: 0 auto;
+    text-align: center;
+  }
+  .order-form {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem;
+    margin-top: 2rem;
+    text-align: left;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
+  .form-group label { font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-mid); }
+  .form-group input, .form-group select, .form-group textarea {
+    background: var(--cream);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    font-family: 'Lato', sans-serif;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--caramel);
+  }
+  .form-group textarea { resize: vertical; min-height: 90px; }
+  .form-submit {
+    width: 100%;
+    background: var(--brown);
+    color: var(--cream);
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: 'Lato', sans-serif;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: background 0.2s, transform 0.15s;
+    margin-top: 0.5rem;
+  }
+  .form-submit:hover { background: var(--dark-brown); transform: translateY(-2px); }
+
+  /* HOURS */
+  .hours-contact {
+    background: var(--warm-white);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+  }
+  .hours-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
+  .hours-table tr { border-bottom: 1px solid var(--border); }
+  .hours-table td { padding: 10px 0; font-size: 0.95rem; }
+  .hours-table td:last-child { text-align: right; color: var(--caramel); font-weight: 700; }
+  .hours-table tr:last-child td { border-bottom: none; }
+  .contact-item { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 1.2rem; }
+  .contact-icon {
+    width: 44px; height: 44px; flex-shrink: 0;
+    background: var(--caramel-pale);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    border: 1px solid var(--border);
+  }
+  .contact-text h4 { font-weight: 700; font-size: 0.9rem; color: var(--dark-brown); margin-bottom: 2px; }
+  .contact-text p { font-size: 0.88rem; color: var(--text-mid); margin: 0; }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark-brown);
+    color: rgba(255,255,255,0.65);
+    padding: 40px 5% 24px;
+    text-align: center;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+  }
+  .footer-logo span { color: var(--caramel); font-style: italic; }
+  footer p { font-size: 0.85rem; margin-bottom: 0.3rem; }
+  .footer-links { display: flex; gap: 1.5rem; justify-content: center; margin: 1.2rem 0; flex-wrap: wrap; }
+  .footer-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.82rem; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--caramel-light); }
+  .footer-divider { border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 1.5rem 0 1rem; }
+  .footer-copy { font-size: 0.78rem; opacity: 0.45; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .about { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .form-row { grid-template-columns: 1fr; }
+    .hours-contact { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">La <span>Farine</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#specials">Specials</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#order" class="nav-cta">Order Now</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <span class="hero-tag">✦ Freshly Baked Daily</span>
+    <h1>Baked with <em>Love</em>,<br>Served with <em>Joy</em></h1>
+    <p>Handcrafted breads, pastries, and cakes made from the finest ingredients. Every bite tells a story of tradition and passion.</p>
+    <div class="hero-buttons">
+      <a href="#menu" class="btn-primary">Explore Our Menu</a>
+      <a href="#order" class="btn-secondary">Order Online</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <svg viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="190" cy="190" r="180" fill="#F5E8D6" opacity="0.6"/>
+      <circle cx="190" cy="190" r="140" fill="#EDD5B5" opacity="0.5"/>
+      <!-- Bread loaf -->
+      <ellipse cx="190" cy="220" rx="120" ry="60" fill="#C4874A"/>
+      <ellipse cx="190" cy="200" rx="115" ry="55" fill="#D9975A"/>
+      <ellipse cx="190" cy="185" rx="108" ry="52" fill="#E8A96A"/>
+      <!-- Bread top curve -->
+      <ellipse cx="190" cy="168" rx="90" ry="40" fill="#F0BC80"/>
+      <!-- Score lines -->
+      <path d="M150 170 Q190 155 230 170" stroke="#D9975A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M160 180 Q190 167 220 180" stroke="#D9975A" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Steam -->
+      <path d="M160 130 Q165 115 160 100" stroke="#C4874A" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+      <path d="M190 120 Q195 105 190 90" stroke="#C4874A" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+      <path d="M220 130 Q225 115 220 100" stroke="#C4874A" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+      <!-- Small pastries -->
+      <circle cx="80" cy="280" r="28" fill="#F0BC80"/>
+      <circle cx="80" cy="275" r="26" fill="#F5CE9A"/>
+      <path d="M68 272 Q80 265 92 272" stroke="#E8A96A" stroke-width="2" fill="none"/>
+      <circle cx="300" cy="280" r="28" fill="#C4874A"/>
+      <circle cx="300" cy="275" r="26" fill="#D9975A"/>
+      <circle cx="300" cy="270" r="8" fill="#F5CE9A"/>
+      <!-- Wheat -->
+      <path d="M330 150 L345 100" stroke="#C4874A" stroke-width="2" opacity="0.6"/>
+      <ellipse cx="342" cy="105" rx="5" ry="9" fill="#D9975A" transform="rotate(20 342 105)" opacity="0.7"/>
+      <ellipse cx="348" cy="118" rx="5" ry="9" fill="#D9975A" transform="rotate(-15 348 118)" opacity="0.7"/>
+      <ellipse cx="337" cy="118" rx="5" ry="9" fill="#D9975A" transform="rotate(35 337 118)" opacity="0.7"/>
+      <path d="M40 150 L55 100" stroke="#C4874A" stroke-width="2" opacity="0.6"/>
+      <ellipse cx="52" cy="105" rx="5" ry="9" fill="#D9975A" transform="rotate(-20 52 105)" opacity="0.7"/>
+      <ellipse cx="58" cy="118" rx="5" ry="9" fill="#D9975A" transform="rotate(15 58 118)" opacity="0.7"/>
+      <ellipse cx="47" cy="118" rx="5" ry="9" fill="#D9975A" transform="rotate(-35 47 118)" opacity="0.7"/>
+    </svg>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>Sourdough Loaves</span>✦<span>Croissants</span>✦<span>Cinnamon Rolls</span>✦<span>Artisan Cakes</span>✦<span>Fresh Pastries</span>✦<span>Multigrain Bread</span>✦<span>Macarons</span>✦<span>Tarts & Quiches</span>✦
+    <span>Sourdough Loaves</span>✦<span>Croissants</span>✦<span>Cinnamon Rolls</span>✦<span>Artisan Cakes</span>✦<span>Fresh Pastries</span>✦<span>Multigrain Bread</span>✦<span>Macarons</span>✦<span>Tarts & Quiches</span>✦
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-visual">
+    <div class="about-img-box">
+      <svg viewBox="0 0 400 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Oven / bakery scene -->
+        <rect x="60" y="140" width="280" height="180" rx="12" fill="#C4874A"/>
+        <rect x="70" y="150" width="260" height="160" rx="8" fill="#D9975A"/>
+        <!-- Oven door -->
+        <rect x="130" y="170" width="140" height="110" rx="8" fill="#5C3A1E"/>
+        <rect x="140" y="180" width="120" height="90" rx="5" fill="#3B2210" opacity="0.8"/>
+        <!-- Window glow -->
+        <rect x="145" y="185" width="110" height="80" rx="4" fill="#F5CE9A" opacity="0.2"/>
+        <!-- Bread inside oven -->
+        <ellipse cx="200" cy="225" rx="45" ry="22" fill="#E8A96A" opacity="0.8"/>
+        <!-- Oven controls -->
+        <circle cx="100" cy="165" r="8" fill="#3B2210"/>
+        <circle cx="300" cy="165" r="8" fill="#3B2210"/>
+        <circle cx="200" cy="162" r="6" fill="#3B2210"/>
+        <!-- Handle -->
+        <rect x="160" y="268" width="80" height="10" rx="5" fill="#3B2210"/>
+        <!-- Shelf above -->
+        <rect x="40" y="80" width="320" height="12" rx="4" fill="#C4874A"/>
+        <rect x="40" y="92" width="10" height="60" rx="3" fill="#C4874A"/>
+        <rect x="350" y="92" width="10" height="60" rx="3" fill="#C4874A"/>
+        <!-- Items on shelf -->
+        <rect x="70" y="50" width="50" height="35" rx="5" fill="#D9975A"/>
+        <ellipse cx="95" cy="50" rx="25" ry="12" fill="#E8A96A"/>
+        <rect x="150" y="55" width="40" height="30" rx="5" fill="#C4874A"/>
+        <ellipse cx="170" cy="55" rx="20" ry="10" fill="#D9975A"/>
+        <rect x="250" y="48" width="60" height="38" rx="5" fill="#D9975A"/>
+        <ellipse cx="280" cy="48" rx="30" ry="13" fill="#E8A96A"/>
+        <!-- Flour dust -->
+        <circle cx="120" cy="350" r="30" fill="white" opacity="0.2"/>
+        <circle cx="280" cy="360" r="20" fill="white" opacity="0.15"/>
+      </svg>
+    </div>
+    <div class="about-badge">
+      <strong>25+</strong>
+      <span>Years of<br>Baking</span>
+    </div>
+  </div>
+  <div class="about-text">
+    <div class="section-label">Our Story</div>
+    <h2 class="section-title">Where Every Loaf is a<br>Labour of <em style="font-family:'Playfair Display',serif; color:var(--caramel);">Love</em></h2>
+    <p class="section-sub">Founded in 1999, La Farine has been the heart of the neighbourhood for over two decades. We rise before dawn so your morning starts with something truly special.</p>
+    <div class="about-features">
+      <div class="about-feature">
+        <div class="about-feature-icon">🌾</div>
+        <div>
+          <h4>Locally Sourced Ingredients</h4>
+          <p>We partner with local farms to bring you the freshest, most flavourful ingredients every single day.</p>
+        </div>
+      </div>
+      <div class="about-feature">
+        <div class="about-feature-icon">🕐</div>
+        <div>
+          <h4>Slow Fermentation Process</h4>
+          <p>Our doughs ferment for 24–48 hours, developing deep flavours and a perfect crust that can't be rushed.</p>
+        </div>
+      </div>
+      <div class="about-feature">
+        <div class="about-feature-icon">🧑‍🍳</div>
+        <div>
+          <h4>Expert Artisan Bakers</h4>
+          <p>Our bakers train for years to master the craft, blending old-world tradition with modern technique.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu" id="menu">
+  <div class="menu-header">
+    <div>
+      <div class="section-label">What We Bake</div>
+      <h2 class="section-title">Fresh From the Oven</h2>
+      <div class="menu-tabs">
+        <button class="tab-btn active">All</button>
+        <button class="tab-btn">Breads</button>
+        <button class="tab-btn">Pastries</button>
+        <button class="tab-btn">Cakes</button>
+        <button class="tab-btn">Drinks</button>
+      </div>
+    </div>
+    <a href="#order" class="btn-primary" style="align-self:flex-start">View Full Menu</a>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-card">
+      <div class="menu-card-img">🥖</div>
+      <div class="menu-card-body">
+        <h3>Classic Sourdough</h3>
+        <p>48-hour fermented, golden crust, chewy open crumb. A bakery staple.</p>
+        <div class="menu-card-footer">
+          <span class="price">₹180</span>
+          <button class="add-btn">Add to Order</button>
+        </div>
+      </div>
+    </div>
+    <div class="menu-card">
+      <div class="menu-card-img">🥐</div>
+      <div class="menu-card-body">
+        <h3>Butter Croissant</h3>
+        <p>72 layers of French butter pastry, perfectly laminated and flaky.</p>
+        <div class="menu-card-footer">
+          <span class="price">₹95</span>
+          <button class="add-btn">Add to Order</button>
+        </div>
+      </div>
+    </div>
+    <div class="menu-card">
+      <div class="menu-card-img">🎂</div>
+      <div class="menu-card-body">
+        <h3>Vanilla Layer Cake</h3>
+        <p>Moist vanilla sponge, whipped mascarpone frosting and seasonal berries.</p>
+        <div class="menu-card-footer">
+          <span class="price">₹650</span>
+          <button class="add-btn">Add to Order</button>
+        </div>
+      </div>
+    </div>
+    <div class="menu-card">
+      <div class="menu-card-img">🍩</div>
+      <div class="menu-card-body">
+        <h3>Glazed Cinnamon Roll</h3>
+        <p>Pillowy rolls with spiced filling and warm cream cheese glaze.</p>
+        <div class="menu-card-footer">
+          <span class="price">₹120</span>
+          <button class="add-btn">Add to Order</button>
+        </div>
+      </div>
+    </div>
+    <div class="menu-card">
+      <div class="menu-card-img">🍞</div>
+      <div class="menu-card-body">
+        <h3>Multigrain Loaf</h3>
+        <p>Seeds, whole grains and oats. Nutritious, nutty and wonderfully dense.</p>
+        <div class="menu-card-footer">
+          <span class="price">₹160</span>
+          <button class="add-btn">Add to Order</button>
+        </div>
+      </div>
+    </div>
+    <div class="menu-card">
+      <div class="menu-card-img">🧁</div>
+      <div class="menu-card-body">
+        <h3>Brown Butter Muffin</h3>
+        <p>Dark chocolate chips, browned butter, toasted oat crumble on top.</p>
+        <div class="menu-card-footer">
+          <span class="price">₹85</span>
+          <button class="add-btn">Add to Order</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECIALS -->
+<section class="specials" id="specials">
+  <div class="section-label">This Week</div>
+  <h2 class="section-title">Daily Specials & Seasonal Picks</h2>
+  <p class="section-sub">Limited batches, made with seasonal love. Available while stocks last.</p>
+  <div class="specials-grid">
+    <div class="special-card">
+      <div class="icon">🍋</div>
+      <h3>Lemon Tart</h3>
+      <p>Bright citrus curd, buttery shortcrust, meringue kiss</p>
+      <div class="special-price">₹220</div>
+    </div>
+    <div class="special-card">
+      <div class="icon">🫐</div>
+      <h3>Blueberry Galette</h3>
+      <p>Free-form pastry, wild blueberries, almond cream</p>
+      <div class="special-price">₹280</div>
+    </div>
+    <div class="special-card">
+      <div class="icon">🍫</div>
+      <h3>Dark Chocolate Babka</h3>
+      <p>Swirled brioche, 70% couverture, sea salt finish</p>
+      <div class="special-price">₹320</div>
+    </div>
+    <div class="special-card">
+      <div class="icon">🧇</div>
+      <h3>Morning Basket</h3>
+      <p>2 croissants, 1 muffin, 1 scone + a hot drink</p>
+      <div class="special-price">₹350</div>
+    </div>
+  </div>
+  <a href="#order" class="btn-secondary" style="border-color:var(--caramel-light);color:var(--caramel-light);">Order Today's Specials</a>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-label">Kind Words</div>
+  <h2 class="section-title">What Our Customers Say</h2>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">The sourdough here is absolutely life-changing. I drive 40 minutes just to pick up a fresh loaf on Saturday mornings. Worth every minute!</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">PR</div>
+        <div>
+          <div class="author-name">Priya Rajan</div>
+          <div class="author-role">Regular Customer</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">Ordered a custom birthday cake and they exceeded every expectation. The brown butter frosting had my guests asking for the recipe all evening!</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">AS</div>
+        <div>
+          <div class="author-name">Arjun Sharma</div>
+          <div class="author-role">Chennai</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">The croissants are flakier than anything I've had in Paris. Truly world-class baking right here in our neighbourhood. Cannot recommend enough!</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">MK</div>
+        <div>
+          <div class="author-name">Meera Kumar</div>
+          <div class="author-role">Food Blogger</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER FORM -->
+<section class="order" id="order">
+  <div class="order-wrap">
+    <div class="section-label" style="text-align:center">Place Your Order</div>
+    <h2 class="section-title" style="text-align:center">Order Fresh, Pick Up Hot</h2>
+    <p class="section-sub" style="margin:0 auto 0.5rem; text-align:center">Pre-order online and skip the queue. Ready in 30–45 minutes.</p>
+    <div class="order-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="Priya">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="Rajan">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" placeholder="+91 98765 43210">
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="priya@email.com">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Item</label>
+          <select>
+            <option value="">— Select Item —</option>
+            <option>Classic Sourdough — ₹180</option>
+            <option>Butter Croissant — ₹95</option>
+            <option>Vanilla Layer Cake — ₹650</option>
+            <option>Glazed Cinnamon Roll — ₹120</option>
+            <option>Multigrain Loaf — ₹160</option>
+            <option>Brown Butter Muffin — ₹85</option>
+            <option>Lemon Tart — ₹220</option>
+            <option>Blueberry Galette — ₹280</option>
+            <option>Dark Chocolate Babka — ₹320</option>
+            <option>Morning Basket — ₹350</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Quantity</label>
+          <input type="number" min="1" max="20" placeholder="1">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Pickup Date</label>
+          <input type="date">
+        </div>
+        <div class="form-group">
+          <label>Pickup Time</label>
+          <select>
+            <option>7:00 AM</option>
+            <option>8:00 AM</option>
+            <option>9:00 AM</option>
+            <option>10:00 AM</option>
+            <option>11:00 AM</option>
+            <option>12:00 PM</option>
+            <option>1:00 PM</option>
+            <option>2:00 PM</option>
+            <option>3:00 PM</option>
+            <option>4:00 PM</option>
+            <option>5:00 PM</option>
+            <option>6:00 PM</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Special Requests</label>
+        <textarea placeholder="Allergies, decorations, any special notes for our bakers..."></textarea>
+      </div>
+      <button class="form-submit">Place My Order ✦</button>
+    </div>
+  </div>
+</section>
+
+<!-- HOURS & CONTACT -->
+<section class="hours-contact" id="contact">
+  <div>
+    <div class="section-label">Opening Hours</div>
+    <h2 class="section-title">Visit Us</h2>
+    <table class="hours-table">
+      <tr><td>Monday – Friday</td><td>6:30 AM – 7:00 PM</td></tr>
+      <tr><td>Saturday</td><td>6:00 AM – 8:00 PM</td></tr>
+      <tr><td>Sunday</td><td>7:00 AM – 5:00 PM</td></tr>
+      <tr><td>Public Holidays</td><td>8:00 AM – 2:00 PM</td></tr>
+    </table>
+  </div>
+  <div>
+    <div class="section-label">Get In Touch</div>
+    <h2 class="section-title">Find Us</h2>
+    <div style="margin-top:1.5rem;">
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div class="contact-text">
+          <h4>Address</h4>
+          <p>14, Besant Nagar 2nd Avenue,<br>Chennai – 600090, Tamil Nadu</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div class="contact-text">
+          <h4>Phone</h4>
+          <p>+91 44 2491 8800</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📧</div>
+        <div class="contact-text">
+          <h4>Email</h4>
+          <p>hello@lafarine.in</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📱</div>
+        <div class="contact-text">
+          <h4>Follow Us</h4>
+          <p>@lafarine.bakery on Instagram & Facebook</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">La <span>Farine</span></div>
+  <p>Artisan Bakery · Chennai</p>
+  <div class="footer-links">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#menu">Menu</a>
+    <a href="#specials">Specials</a>
+    <a href="#order">Order</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <hr class="footer-divider">
+  <p class="footer-copy">© 2026 La Farine Artisan Bakery. All rights reserved. Made with 🤎 in Chennai.</p>
+</footer>
+
+<script>
+  // Tab filtering
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // Add to order button feedback
+  document.querySelectorAll('.add-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const orig = this.textContent;
+      this.textContent = '✓ Added!';
+      this.style.background = '#3B2210';
+      setTimeout(() => {
+        this.textContent = orig;
+        this.style.background = '';
+      }, 1500);
+    });
+  });
+
+  // Form submit
+  document.querySelector('.form-submit').addEventListener('click', function(e) {
+    e.preventDefault();
+    this.textContent = '✓ Order Placed! We\'ll confirm via SMS.';
+    this.style.background = '#3B7A3B';
+    setTimeout(() => {
+      this.textContent = 'Place My Order ✦';
+      this.style.background = '';
+    }, 3000);
+  });
+</script>
+</body>
+</html>
